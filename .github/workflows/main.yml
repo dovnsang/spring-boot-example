@@ -1,0 +1,25 @@
+name: Build & Deploy Spring app example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    name: Build an Deploy Spring Boot app example
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: action/checkout@v3
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Unit tests
+        run: mvn -B test --file pom.xml
+
+      - name: Build the application
+        run:
+          mvn clean
+          mvn -B package --file pom.xml
